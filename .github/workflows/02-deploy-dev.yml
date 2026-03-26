@@ -1,0 +1,15 @@
+name: Deploy Dev
+
+on:
+  push:
+    branches: [development]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to Render Dev
+        run: |
+          curl -X POST "https://api.render.com/v1/services/${{ secrets.RENDER_DEV }}/deploys" \
+          -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}"
