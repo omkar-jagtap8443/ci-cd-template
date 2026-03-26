@@ -1,0 +1,22 @@
+name: QA Approval
+
+on:
+  workflow_dispatch:
+    inputs:
+      approval:
+        description: "Type APPROVE"
+        required: true
+
+jobs:
+  approve:
+    if: ${{ github.event.inputs.approval == 'APPROVE' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: echo "Approved"
+
+      - name: Merge testing → staging
+        run: |
+          git checkout staging
+          git merge origin/testing
+          git push origin staging

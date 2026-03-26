@@ -1,0 +1,18 @@
+name: Deploy Production
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: "Type DEPLOY TO PRODUCTION"
+        required: true
+
+jobs:
+  deploy:
+    if: ${{ github.event.inputs.confirm == 'DEPLOY TO PRODUCTION' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: |
+          curl -X POST "https://api.render.com/v1/services/${{ secrets.RENDER_PROD }}/deploys" \
+          -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}"
